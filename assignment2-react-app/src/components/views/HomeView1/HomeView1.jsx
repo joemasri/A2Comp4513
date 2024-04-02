@@ -1,9 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../common/Header';
+import supabase from '../../../../config/supabaseClient';
 
 const HomeView1 = () => {
 
-    const [selectedSeason, setSelectedSeason] = useState(''); // State to tr
+    const [selectedSeason, setSelectedSeason] = useState(''); 
+    const [seasons, setSeasons] = useState([]);
+
+    useEffect(() => {
+        // Fetch seasons from the database
+        const fetchSeasons = async () => {
+            const { data, error } = await supabase
+                .from('seasons')
+                .select('year')
+                .gte('year', 2000)
+                .lte('year', 2023)
+                .order('year', { ascending: false });
+            if (error) {
+                console.error('Error fetching seasons:', error.message);
+            } else {
+                setSeasons(data);
+            }
+        };
+        fetchSeasons();
+    }, []);
 
     return (
         <div>
@@ -16,7 +36,11 @@ const HomeView1 = () => {
                             onChange={(e) => setSelectedSeason(e.target.value)}
                         >
                             <option value="">Select a season</option>
-                            {/* Add options for each season */}
+                            {seasons.map((season) => (
+                            <option key={season.year} value={season.year}>
+                                {season.year}
+                            </option>
+                             ))}
                         </select>
                 </div>
                 {/* Display races, results, and standings for the selected season */}

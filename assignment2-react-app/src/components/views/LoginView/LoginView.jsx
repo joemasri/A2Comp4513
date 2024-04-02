@@ -6,8 +6,8 @@ const LoginView = () => {
 
     const navigate = useNavigate();
 
+    // Function to handle login
     const handleLogin = () => {
-        // If login is successful, navigate to HomeView1
         navigate('/home');
     }
 
@@ -15,7 +15,7 @@ const LoginView = () => {
         <div>
             <Header />
             <div className="container">
-                <h1>Login</h1>
+                <h1 className='text-3xl font-bold mb-4'>Login</h1>
                 <form>
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
