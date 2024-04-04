@@ -34,3 +34,18 @@ export const fetchRaces = async (selectedSeason) => {
         return data;
       }
     };
+
+// Fetch qualifying data
+export const fetchQualifying = async () => {
+    const { data, error } = await supabase
+        .from('qualifying')
+        .select();
+    
+        // Handle errors
+        if (error) {
+            console.error('Error fetching qualifying data: ', error.message);
+            return null;
+        } else {
+            return data;
+        }
+    }
