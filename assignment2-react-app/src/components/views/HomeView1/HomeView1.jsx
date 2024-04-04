@@ -5,7 +5,7 @@ import { fetchSeasons, fetchRaces } from '../../../Api';
 const HomeView1 = () => {
 
     // Store selected variables in state
-    const [selectedSeason, setSelectedSeason] = useState(''); 
+    const [selectedSeason, setSelectedSeason] = useState('2023'); 
     const [seasons, setSeasons] = useState([]);
     const [races, setRaces] = useState([]);
 
@@ -31,25 +31,19 @@ const HomeView1 = () => {
 
     return (
     <div>
-        <Header />
-        <div className="container">
-            <div>
-                    {/* Select season dropdown */}
-                    <div>
-                        <select className="border border-gray-300 rounded px-3 py-1 mt-4"
-                            value={selectedSeason}
-                            onChange={(e) => setSelectedSeason(e.target.value)}
-                        >
-                            <option value="">Select a season</option>
-                            {seasons.map((season) => (
-                                <option key={season.year} value={season.year}>
-                                    {season.year}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                    {/* Races based on selected season */}
+        
+        {/* Header with season select */}
+        <div>
+            <Header 
+                setSelectedSeason={setSelectedSeason}
+                selectedSeason={selectedSeason}
+                seasons={seasons}
+            />   
+        </div>
+
+        <div className="flex space-x-4">
+                    
+                    {/* Races based on season section */}
                     <div className="mt-4 p-3 w-1/3 border border-black text-left">
                         <h2 className="text-lg font-semibold">Races for Season {selectedSeason}</h2>
                         <ul>
@@ -64,8 +58,14 @@ const HomeView1 = () => {
                             ))}
                         </ul>
                     </div>
-                </div>
-            </div>
+
+        {/* Results section */}
+        <div className="mt-4 p-3 w-2/3 border border-black text-left">
+
+
+        </div>
+    </div>
+</div>
         );
     }
 

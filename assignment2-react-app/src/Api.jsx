@@ -34,4 +34,3 @@ export const fetchRaces = async (selectedSeason) => {
         return data;
       }
     };
-    

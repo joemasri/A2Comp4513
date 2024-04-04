@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../common/Header';
 import { useNavigate } from 'react-router-dom';
 
 const LoginView = () => {
@@ -13,7 +12,6 @@ const LoginView = () => {
 
     return (
         <div>
-            <Header />
             <div className="container">
                 <h1 className='text-2xl font-bold mb-4'>Login</h1>
                 <form>
