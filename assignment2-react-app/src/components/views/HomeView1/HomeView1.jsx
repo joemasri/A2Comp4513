@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../common/Header';
-import { fetchSeasons, fetchRaces, fetchQualifying } from '../../../Api';
+import { fetchSeasons, fetchRaces, fetchQualifying, fetchResults } from '../../../Api';
+import RacesDisplay from './RacesDisplay';
 
 const HomeView1 = () => {
 
@@ -10,8 +11,8 @@ const HomeView1 = () => {
     const [races, setRaces] = useState([]);
     const [selectedRace, setSelectedRace] = useState(null);
     const [qualifyingData, setQualifyingData] = useState([]);
+    const [resultsData, setResultsData] = useState([]);
     
-
     // Fetch seasons from the api
     useEffect(() => {
         const fetchSeason = async () => {
@@ -43,6 +44,18 @@ const HomeView1 = () => {
         fetchQualifyingData();
     }, [selectedRace]); 
 
+    // Fetch results data
+    useEffect(() => {
+        const fetchResultsData = async () => {
+            if(selectedRace) {
+                const resultsData = await fetchResults(selectedRace.raceId);
+                setResultsData(resultsData);
+            }
+        };
+        fetchResultsData();
+    }, [selectedRace]);
+    
+    // Results button handler
     const handleResultBtn = (race) => {
         setSelectedRace(race)
     }
@@ -57,35 +70,27 @@ const HomeView1 = () => {
                 seasons={seasons}
             />   
         </div>
-        <div className="flex space-x-4">
-                    
-                    {/* Races based on season section */}
-                    <div className="mt-4 mr-4 p-3 w-1/3 border border-black text-left">
-                        <h2 className="text-lg font-semibold">{selectedSeason} Races</h2>
-                        <ul>
-                            {races.map((race, indx) => (
-                               <li key={indx} className="flex items-center justify-between">
-                                    {race.round} - {race.name}
-                                <div className="flex">
-                                    <button className="p-2 m-1 text-white bg-gray-400 rounded" onClick={() => handleResultBtn(race)}>Results</button>
-                                    <button className="p-2 m-1 text-white bg-gray-400 rounded">Standings</button>
-                                </div>
-                               </li>
-                            ))}
-                        </ul>
-                    </div>
 
-        {/* Results section */}
-        <div className="mt-4 p-3 w-2/3 border border-black text-left">
+        {/* Races Display based on season selected */}
+        <div className="flex space-x-2">
+            <RacesDisplay 
+                races={races} 
+                handleResultBtn={handleResultBtn} 
+                selectedSeason={selectedSeason} 
+            />
+                    
+        {/* Qualifying/Results section */}
+        <div className="mt-4 p-3 w-3/5 border border-black text-left">
             {selectedRace && ( 
              <>
                 <h2 className="text-lg font-semibold">Results</h2>
                 <p>Name: {selectedRace.name}, Round #{selectedRace.round}, Year: {selectedRace.year}</p>
                 
+                {/* Qualifying Display */}
                 {qualifyingData && (
                     <>
-                     <h2 className="text-lg font-semibold">Qualifying Data</h2>
-                     {/* Display qualifying data here */}
+                    <div className="w-full border-black text-left">
+                     <h2 className="text-lg font-bold text-left mb-3 mt-3 border-t pt-2">Qualifying</h2>
                         <table className="w-full">
                             <thead>
                                 <tr>
@@ -108,12 +113,13 @@ const HomeView1 = () => {
                                 ))}
                             </tbody>
                         </table>
-                     
+                     </div>
                     </>
                 )}
-            
              </>   
             )}
+
+            {/* Results Display (pos, name, laps, points) */}
            
         </div>
     </div>

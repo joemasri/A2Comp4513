@@ -51,3 +51,20 @@ export const fetchQualifying = async (selectedRace) => {
             return data;
         }
     }
+
+// Fetch results data
+export const fetchResults = async (selectedRace) => {
+    const { data, error } = await supabase
+        .from('results')
+        .select()
+        .eq('raceId', selectedRace)
+        .order('position', { ascending: true });
+    
+        // Handle errors
+        if (error) {
+            console.error('Error fetching results data: ', error.message);
+            return null;
+        } else {
+            return data;
+        }
+    }
