@@ -1,9 +1,8 @@
 import React from "react";
 
+// Races Display based on Selected Season 
 const RacesDisplay = ({ races, handleResultBtn, selectedSeason }) => {
-
     return (
-        // Display races for selected season 
         <div className="mt-4 mr-4 p-3 w-1/3 border border-black text-left">
             <h2 className="text-lg font-semibold">{selectedSeason} Races</h2>
             <ul>

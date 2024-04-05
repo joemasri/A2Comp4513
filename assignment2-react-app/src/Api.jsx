@@ -58,11 +58,26 @@ export const fetchResults = async (selectedRace) => {
         .from('results')
         .select()
         .eq('raceId', selectedRace)
-        .order('position', { ascending: true });
+        .order('positionOrder', { ascending: true });
     
         // Handle errors
         if (error) {
             console.error('Error fetching results data: ', error.message);
+            return null;
+        } else {
+            return data;
+        }
+    }
+
+// Fetch driver data based
+export const fetchDriver = async (selectedRace) => {
+    const { data, error } = await supabase
+        .from('drivers')
+        .select();
+    
+        // Handle errors
+        if (error) {
+            console.error('Error fetching driver data: ', error.message);
             return null;
         } else {
             return data;
