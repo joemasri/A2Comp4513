@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../common/Header';
-import { fetchSeasons, fetchRaces } from '../../../Api';
+import { fetchSeasons, fetchRaces, fetchQualifying } from '../../../Api';
 
 const HomeView1 = () => {
 
@@ -9,6 +9,7 @@ const HomeView1 = () => {
     const [seasons, setSeasons] = useState([]);
     const [races, setRaces] = useState([]);
     const [selectedRace, setSelectedRace] = useState(null);
+    const [qualifyingData, setQualifyingData] = useState([]);
     
 
     // Fetch seasons from the api
@@ -31,8 +32,18 @@ const HomeView1 = () => {
         fetchRace();
     }, [selectedSeason]);
 
+    // Fetch qualifying data
+    useEffect(() => { 
+        const fetchQualifyingData = async () => {
+            if(selectedRace) {
+                const qualifyingData = await fetchQualifying(selectedRace.raceId);
+                setQualifyingData(qualifyingData);
+            }
+        };
+        fetchQualifyingData();
+    }, [selectedRace]); 
+
     const handleResultBtn = (race) => {
-        console.log(race);
         setSelectedRace(race)
     }
 
@@ -70,6 +81,37 @@ const HomeView1 = () => {
              <>
                 <h2 className="text-lg font-semibold">Results</h2>
                 <p>Name: {selectedRace.name}, Round #{selectedRace.round}, Year: {selectedRace.year}</p>
+                
+                {qualifyingData && (
+                    <>
+                     <h2 className="text-lg font-semibold">Qualifying Data</h2>
+                     {/* Display qualifying data here */}
+                        <table className="w-full">
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Driver</th>
+                                    <th>Q1</th>
+                                    <th>Q2</th>
+                                    <th>Q3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {qualifyingData.map((qualifying, indx) => (
+                                    <tr key={indx}>
+                                        <td>{qualifying.position}</td>
+                                        <td>{/*Driver name here*/}</td>
+                                        <td>{qualifying.q1}</td>
+                                        <td>{qualifying.q2}</td>
+                                        <td>{qualifying.q3}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                     
+                    </>
+                )}
+            
              </>   
             )}
            

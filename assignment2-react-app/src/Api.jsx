@@ -36,10 +36,12 @@ export const fetchRaces = async (selectedSeason) => {
     };
 
 // Fetch qualifying data
-export const fetchQualifying = async () => {
+export const fetchQualifying = async (selectedRace) => {
     const { data, error } = await supabase
         .from('qualifying')
-        .select();
+        .select()
+        .eq('raceId', selectedRace)
+        .order('position', { ascending: true });
     
         // Handle errors
         if (error) {
