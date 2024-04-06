@@ -1,12 +1,24 @@
-import React from "react";
+import React, {useState} from 'react';
 
 // Results and Qualifying Display based on Selected Race
 const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData }) => {
+    
+    // State to show/hide qualifying data
+    const [showQualifying, setShowQualifying] = useState(true);
     
     const findDriverName = (driverId) => {
         const driver = driverData.find(driver => driver.driverId === driverId);
         return driver ? `${driver.forename} ${driver.surname}` : 'Unknown'
     }
+
+    const toggleQualifying = () => {
+        setShowQualifying(true);
+    };
+
+    const toggleResults = () => {
+        setShowQualifying(false);
+    };
+
     
     return (
     <div className="mt-4 p-3 w-3/5 border border-black text-left">
@@ -14,9 +26,15 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData })
              <>
                 <h2 className="text-lg font-semibold">Results</h2>
                 <p>Name: {selectedRace.name}, Round #{selectedRace.round}, Year: {selectedRace.year}</p>
-                
+
+                {/* Buttons to switch display */}
+                <div className="flex">
+                        <button className={`p-2 m-1 mt-4 text-white rounded ${showQualifying ? 'bg-gray-600' : 'bg-gray-400'}`} onClick={toggleQualifying}>Qualifying</button>
+                        <button className={`p-2 m-1 mt-4 text-white rounded ${showQualifying ? 'bg-gray-400' : 'bg-gray-600'}`} onClick={toggleResults}>Results</button>
+                </div>
+
                 {/* Qualifying Display */}
-                {qualifyingData && (
+                {qualifyingData && showQualifying && (
                     <>
                     <div className="w-full border-black text-left">
                      <h2 className="text-lg font-bold text-left mb-3 mt-3 border-t pt-2">Qualifying</h2>
@@ -49,6 +67,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData })
             )}
 
             {/* Results Display (pos, name, laps, points) */}
+            {!showQualifying && (
             <div>
                 <h2 className="text-lg font-bold text-left mb-3 mt-3 border-t pt-2">Results</h2>
                 <table className="w-full">
@@ -72,8 +91,11 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData })
                     </tbody>
                 </table>
             </div>
-        </div>
+            )}
 
+            
+
+        </div>
     )
 }
 
