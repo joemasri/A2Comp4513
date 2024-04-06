@@ -6,20 +6,23 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData })
     // State to show/hide qualifying data
     const [showQualifying, setShowQualifying] = useState(true);
     
+    // Locate driver name using driverId
     const findDriverName = (driverId) => {
         const driver = driverData.find(driver => driver.driverId === driverId);
         return driver ? `${driver.forename} ${driver.surname}` : 'Unknown'
     }
 
+    // Toggle Qualifying View
     const toggleQualifying = () => {
         setShowQualifying(true);
     };
 
+    // Toggle Results View
     const toggleResults = () => {
         setShowQualifying(false);
     };
-
     
+    // Display
     return (
     <div className="mt-4 p-3 w-3/5 border border-black text-left">
             {selectedRace && ( 
@@ -92,9 +95,6 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData })
                 </table>
             </div>
             )}
-
-            
-
         </div>
     )
 }

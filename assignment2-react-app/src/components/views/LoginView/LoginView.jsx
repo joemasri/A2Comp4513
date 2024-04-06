@@ -12,19 +12,19 @@ const LoginView = () => {
 
     return (
         <div>
-            <div className="container">
+            <div className="flex-center items-center m-20">
                 <h1 className='text-2xl font-bold mb-4'>Login</h1>
                 <form>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input type="text" id="username" name="username" />
+                    <div className="mb-4">
+                        <label className=" block m-1 text-black text-sm font-bold" htmlFor="username">Username</label>
+                        <input className="shadow border rounded py-2 px-3 text-gray-700 m-3" type="text" id="username" name="username" />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" name="password" />
+                    <div className="mb-6">
+                        <label className="block text-black text-sm font-bold" htmlFor="password">Password</label>
+                        <input className="shadow appearance-none border rounded py-2 px-3 text-gray-700 m-3" type="password" id="password" name="password" />
                     </div>
-                    <button type="button" onClick={handleLogin}>Login</button>
-                    <button type="button"onClick={handleLogin}>/Register</button>
+                    <button className="py-2 px-4 text-white bg-gray-400 rounded" type="button" onClick={handleLogin}>Login</button>
+                    <button className="py-2 px-4 ml-4 text-white bg-gray-400 rounded" type="button"onClick={handleLogin}>/Register</button>
                 </form>
             </div>
         </div>
