@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../common/Header';
-import { useNavigate } from 'react-router-dom';
-import { fetchSeasons, fetchRaces, fetchQualifying, fetchResults, fetchDriver } from '../../../Api';
+import { fetchSeasons, fetchRaces, fetchQualifying, fetchResults, fetchDriver, fetchDriverStandings, fetchConstructorStandings } from '../../../Api';
 import RacesDisplay from './RacesDisplay';
 import RaceOverview from './RaceOverview';
-import HomeView2 from '../HomeView2/HomeView2';
 
 const HomeView1 = () => {
 
@@ -17,6 +15,9 @@ const HomeView1 = () => {
     const [resultsData, setResultsData] = useState([]);
     const [driverData, setDriverData] = useState([]);
     const [showStandings, setShowStandings] = useState(false);
+    const [driverStandingsData, setDriverStandingsData] = useState([]);
+    const [constructorStandingsData, setConstructorStandingsData] = useState([]);
+
 
     // Fetch seasons
     useEffect(() => {
@@ -35,7 +36,7 @@ const HomeView1 = () => {
             const racesData = await fetchRaces(selectedSeason);
             setRaces(racesData);
 
-            // If a race is selected, fetch qualifying data, results data, and driver data
+            // If a race is selected, fetch qualifying, results, driver, driver standings, and constructor standings
             if (selectedRace) {
                 const raceId = selectedRace.raceId;
                 const qualifyingData = await fetchQualifying(raceId);
@@ -46,6 +47,12 @@ const HomeView1 = () => {
 
                 const driverData = await fetchDriver(raceId);
                 setDriverData(driverData);
+
+                const driverStandingsData = await fetchDriverStandings(raceId);
+                setDriverStandingsData(driverStandingsData);
+
+                const constructorStandingsData = await fetchConstructorStandings(raceId);
+                setConstructorStandingsData(constructorStandingsData);
             }
         };
 
@@ -57,16 +64,15 @@ const HomeView1 = () => {
 
     // Results button handler
     const handleResultBtn = (race) => {
+        setShowStandings(false);
         setSelectedRace(race);
     }
 
     // Standings button handler
-    const navigate = useNavigate();
     const handleStandingsBtn = (race) => {
-        console.log("Standings clicked, race clicked: ", race);
-        navigate('/home2');
-        setShowStandings(true);
-    }
+        setShowStandings(true); 
+        setSelectedRace(race);
+    };
 
     return (
     <div>
@@ -78,31 +84,26 @@ const HomeView1 = () => {
         />   
     
     <div className="flex space-x-4">
-        {showStandings ? (
-            <HomeView2 />
-        ) : (
-           <>
-
-           {/* Display races and buttons based on selected season */}
-            <RacesDisplay 
-                races={races} 
-                handleResultBtn={handleResultBtn} 
-                handleStandingsBtn={handleStandingsBtn}
-                selectedSeason={selectedSeason} 
-            />
-            
-           {/* Display Qualifying/Result Displays based on selected race  */}
-            <RaceOverview 
-                selectedRace={selectedRace} 
-                qualifyingData={qualifyingData} 
-                resultsData={resultsData}
-                driverData={driverData}
-            />
-        </>
-    )}
+        
+        {/* Races Display based on season selected */}
+        <RacesDisplay 
+            races={races} 
+            handleResultBtn={handleResultBtn} 
+            handleStandingsBtn={handleStandingsBtn}
+            selectedSeason={selectedSeason} 
+        />
+                    
+        {/* Qualifying/Results section */}
+        <RaceOverview 
+            selectedRace={selectedRace} 
+            qualifyingData={qualifyingData} 
+            resultsData={resultsData}
+            driverData={driverData}
+            showStandings={showStandings}
+        />
+    </div>
 </div>
-</div>
-    );
-}
+        );
+    }
 
 export default HomeView1;

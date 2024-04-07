@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 
 // Results and Qualifying Display based on Selected Race
-const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData }) => {
+const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, showStandings, driverStandingsData, constructorStandingsData }) => {
     
     // State to show/hide qualifying data
     const [showQualifying, setShowQualifying] = useState(true);
+    const [showResults, setShowResults] = useState(false);
     
     // Locate driver name using driverId
     const findDriverName = (driverId) => {
@@ -14,12 +15,14 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData })
 
     // Toggle Qualifying View
     const toggleQualifying = () => {
-        setShowQualifying(true);
+        setShowQualifying(true); // Show Qualifying
+        setShowResults(false); // Hide Results
     };
 
     // Toggle Results View
     const toggleResults = () => {
-        setShowQualifying(false);
+        setShowQualifying(false); // Hide Qualifying
+        setShowResults(true); // Show results
     };
     
     // Display
@@ -70,7 +73,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData })
             )}
 
             {/* Results Display (pos, name, laps, points) */}
-            {!showQualifying && (
+            {!showQualifying && !showStandings && (
             <div>
                 <h2 className="text-lg font-bold text-left mb-3 mt-3 border-t pt-2">Results</h2>
                 <table className="w-full">
@@ -95,6 +98,45 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData })
                 </table>
             </div>
             )}
+
+
+            {/* Show Standings (Drivers, Constructors)*/}
+            {showStandings && (
+            <div className="flex">
+
+
+                {/* Table to Display Drivers (pos, name, points, wins) */}
+                <div className="w-1/2">
+                <h2 className="text-lg font-bold text-center mb-3 mt-3 pt-2">Drivers</h2>
+                <table className="w-full">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Driver</th>
+                            <th>Points</th>
+                            <th>Wins</th>
+                        </tr>
+                    </thead>
+                </table>
+                </div>
+
+                {/* Tables to Display Constructors (pos, constructors, points, wins) */}
+                <div className="w-1/2">
+                <h2 className="text-lg font-bold text-center mb-3 mt-3 pt-2">Constructors</h2>
+                <table className="w-full">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Constructor</th>
+                            <th>Points</th>
+                            <th>Wins</th>
+                        </tr>
+                    </thead>
+                </table>
+                </div>
+            </div>
+            )}
+
         </div>
     )
 }
