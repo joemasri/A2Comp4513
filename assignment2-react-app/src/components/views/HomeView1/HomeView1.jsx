@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../common/Header';
+import { useNavigate } from 'react-router-dom';
 import { fetchSeasons, fetchRaces, fetchQualifying, fetchResults, fetchDriver } from '../../../Api';
 import RacesDisplay from './RacesDisplay';
 import RaceOverview from './RaceOverview';
+import HomeView2 from '../HomeView2/HomeView2';
 
 const HomeView1 = () => {
 
@@ -14,8 +16,9 @@ const HomeView1 = () => {
     const [qualifyingData, setQualifyingData] = useState([]);
     const [resultsData, setResultsData] = useState([]);
     const [driverData, setDriverData] = useState([]);
-    
-    // Fetch seasons from the api
+    const [showStandings, setShowStandings] = useState(false);
+
+    // Fetch seasons
     useEffect(() => {
         const fetchSeason = async () => {
             const seasonData = await fetchSeasons();
@@ -23,54 +26,46 @@ const HomeView1 = () => {
         }
         fetchSeason();
     }, []);
-
-    // Fetch races from the api, based on selected season
+    
+    // Fetch races, qualifying data, results data, and driver data
     useEffect(() => {
-        if (!selectedSeason) return;
-
-        const fetchRace = async () => {
-            const racesData = await fetchRaces(selectedSeason); 
+        const fetchData = async () => {
+            
+            // Fetch races
+            const racesData = await fetchRaces(selectedSeason);
             setRaces(racesData);
-        };
-        fetchRace();
-    }, [selectedSeason]);
 
-    // Fetch qualifying data
-    useEffect(() => { 
-        const fetchQualifyingData = async () => {
-            if(selectedRace) {
-                const qualifyingData = await fetchQualifying(selectedRace.raceId);
+            // If a race is selected, fetch qualifying data, results data, and driver data
+            if (selectedRace) {
+                const raceId = selectedRace.raceId;
+                const qualifyingData = await fetchQualifying(raceId);
                 setQualifyingData(qualifyingData);
-            }
-        };
-        fetchQualifyingData();
-    }, [selectedRace]); 
 
-    // Fetch results data
-    useEffect(() => {
-        const fetchResultsData = async () => {
-            if(selectedRace) {
-                const resultsData = await fetchResults(selectedRace.raceId);
+                const resultsData = await fetchResults(raceId);
                 setResultsData(resultsData);
-            }
-        };
-        fetchResultsData();
-    }, [selectedRace]);
 
-    // Fetch drivers data
-    useEffect(() => {
-        const fetchDriverData = async () => {
-            if(selectedRace) {
-                const driverData = await fetchDriver(selectedRace.raceId);
+                const driverData = await fetchDriver(raceId);
                 setDriverData(driverData);
             }
         };
-        fetchDriverData();
-    }, [selectedRace]);
-    
+
+        // Call fetchData function
+        fetchData();
+
+        // selectedSeason and selectedRace in the dependency array
+    }, [selectedSeason, selectedRace]);
+
     // Results button handler
     const handleResultBtn = (race) => {
         setSelectedRace(race);
+    }
+
+    // Standings button handler
+    const navigate = useNavigate();
+    const handleStandingsBtn = (race) => {
+        console.log("Standings clicked, race clicked: ", race);
+        navigate('/home2');
+        setShowStandings(true);
     }
 
     return (
@@ -83,24 +78,31 @@ const HomeView1 = () => {
         />   
     
     <div className="flex space-x-4">
-        
-        {/* Races Display based on season selected */}
-        <RacesDisplay 
-            races={races} 
-            handleResultBtn={handleResultBtn} 
-            selectedSeason={selectedSeason} 
-        />
-                    
-        {/* Qualifying/Results section */}
-        <RaceOverview 
-            selectedRace={selectedRace} 
-            qualifyingData={qualifyingData} 
-            resultsData={resultsData}
-            driverData={driverData}
-        />
-    </div>
+        {showStandings ? (
+            <HomeView2 />
+        ) : (
+           <>
+
+           {/* Display races and buttons based on selected season */}
+            <RacesDisplay 
+                races={races} 
+                handleResultBtn={handleResultBtn} 
+                handleStandingsBtn={handleStandingsBtn}
+                selectedSeason={selectedSeason} 
+            />
+            
+           {/* Display Qualifying/Result Displays based on selected race  */}
+            <RaceOverview 
+                selectedRace={selectedRace} 
+                qualifyingData={qualifyingData} 
+                resultsData={resultsData}
+                driverData={driverData}
+            />
+        </>
+    )}
 </div>
-        );
-    }
+</div>
+    );
+}
 
 export default HomeView1;
