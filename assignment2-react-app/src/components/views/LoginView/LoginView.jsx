@@ -22,7 +22,7 @@ const LoginView = () => {
 
                     {/* Login Form */}
                     <div className="z-10 items-center justify-center p-5 m-5 bg-black bg-opacity-50 rounded-lg">
-                        <h1 className="text-2xl font-bold mb-5 text-white">LOGIN/REGISTER</h1>
+                        <h1 className="text-2xl font-bold mb-5 text-white underline">LOGIN/REGISTER</h1>
                         <form className="text-center">
                             <div className="mb-4">
                                 <label className="block m-1 text-black text-sm font-bold text-white" htmlFor="username">Username</label>
@@ -33,13 +33,13 @@ const LoginView = () => {
                                 <input className="shadow appearance-none border rounded py-2 px-3 text-gray-700 m-3 w-70" type="password" id="password" name="password" />
                             </div>
                             <button className="w-30 py-2 px-6 text-white bg-gray-400 rounded font-bold" type="button" onClick={handleLogin}>Login</button>
-                            <button className="w-15 py-2 px-6 ml-4 text-white bg-red-400 rounded font-bold" type="button"onClick={handleLogin}>/Register</button>
+                            <button className="w-15 py-2 px-6 ml-4 text-white bg-red-400 rounded font-bold" type="button"onClick={handleLogin}>Register</button>
                         </form>
                     </div>
 
                     {/* Credits */}
                     <p className="z-10 text-white text-center mb-8">
-                    Credits: <a href="https://wallpaperset.com/formula-1-wallpapers" className="underline">Wallpaperset.com</a>
+                    Credits: <a href="https://wallpaperset.com/formula-1-wallpapers" className="underline">wallpaperset.com</a>
                     </p>
             </div>
         </div>

@@ -8,7 +8,7 @@ const RacesDisplay = ({ races, handleResultBtn, handleStandingsBtn, selectedSeas
     };
     
     return (
-        <div className="mt-4 mr-4 p-3 w-1/3 border border-black text-left">
+        <div className="mt-4 mr-4 p-3 w-1/3 border-4 border-black text-left">
             <h2 className="text-lg font-semibold">{selectedSeason} Races</h2>
             <ul>
                 {races.map((race, indx) => (

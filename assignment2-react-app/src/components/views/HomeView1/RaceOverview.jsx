@@ -29,15 +29,16 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
 
     if (showStandings) {
         return (
-          <div className="mt-4 p-3 w-3/5 border border-black text-left">
+          <div className="mt-4 p-3 w-3/5 border-4 border-black text-left">
             <h2 className="text-lg font-semibold">Race:</h2>
                 <p>{selectedRace.name} | Round #{selectedRace.round} | {selectedRace.date}</p>
             <div className="flex">
               {/* Table to Display Drivers (pos, name, points, wins) */}
               <div className="w-1/2">
                 <h2 className="text-lg font-bold text-center mb-3 mt-3 pt-2">Drivers</h2>
-                <table className="w-full">
-                  <thead>
+                <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200 p-5">
+                <table className="table-auto w-full">
+                  <thead className="text-left font-semibold uppercase text-gray-400 bg-gray-50">
                     <tr>
                       <th>Position</th>
                       <th>Driver</th>
@@ -45,24 +46,26 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                       <th>Wins</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="text-sm divide-y divide-gray-100">
                     {driverStandingsData.map((driverStanding, index) => (
                       <tr key={index}>
-                        <td>{driverStanding.position}</td>
-                        <td>{findDriverName(driverStanding.driverId)}</td>
-                        <td>{driverStanding.points}</td>
-                        <td>{driverStanding.wins}</td>
+                        <td className="p-3 whitespace-nowrap">{driverStanding.position}</td>
+                        <td className="p-3 whitespace-nowrap">{findDriverName(driverStanding.driverId)}</td>
+                        <td className="p-3 whitespace-nowrap">{driverStanding.points}</td>
+                        <td className="p-3 whitespace-nowrap">{driverStanding.wins}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
     
               {/* Table to Display Constructors (pos, constructors, points, wins) */}
-              <div className="w-1/2">
+              <div className="w-1/2 pl-2">
                 <h2 className="text-lg font-bold text-center mb-3 mt-3 pt-2">Constructors</h2>
-                <table className="w-full">
-                  <thead>
+                <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200 p-5">
+                <table className="table-auto w-full">
+                  <thead className="text-left font-semibold uppercase text-gray-400 bg-gray-50">
                     <tr>
                       <th>Position</th>
                       <th>Constructor</th>
@@ -70,18 +73,19 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                       <th>Wins</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="text-sm divide-y divide-gray-100">
                     {constructorStandingsData.map((constructorStanding, index) => (
                       <tr key={index}>
-                        <td>{constructorStanding.position}</td>
-                        <td>{constructorStanding.constructorId}</td>
-                        <td>{constructorStanding.points}</td>
-                        <td>{constructorStanding.wins}</td>
+                        <td className="p-3 whitespace-nowrap">{constructorStanding.position}</td>
+                        <td className="p-3 whitespace-nowrap">{constructorStanding.constructorId}</td>
+                        <td className="p-3 whitespace-nowrap">{constructorStanding.points}</td>
+                        <td className="p-3 whitespace-nowrap">{constructorStanding.wins}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+            </div>
             </div>
           </div>
         );
@@ -89,7 +93,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
     
     // Display and Toggle Qualifying/Results and Standings (HomeView1 and HomeView2 essentially)
     return (
-    <div className="mt-4 p-3 w-3/5 border border-black text-left">
+    <div className="mt-4 p-3 w-3/5 border-4 border-black text-left">
             {selectedRace && ( 
              <>
                 <h2 className="text-lg font-semibold">Race:</h2>
@@ -104,10 +108,10 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                 {/* Qualifying Display */}
                 {qualifyingData && showQualifying && (
                     <>
-                    <div className="w-full border-black text-left">
-                     <h2 className="text-lg font-bold text-left mb-3 mt-3 border-t pt-2">Qualifying</h2>
-                        <table className="w-full">
-                            <thead>
+                    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200 p-5 mt-5 ml-3">
+                     <h2 className="text-lg font-bold text-left mb-5 ">Qualifying</h2>
+                        <table className="table-auto w-full">
+                            <thead className="text-left font-semibold uppercase text-gray-400 bg-gray-50">
                                 <tr>
                                     <th>Position</th>
                                     <th>Driver</th>
@@ -116,14 +120,14 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                                     <th>Q3</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="text-sm divide-y divide-gray-100">
                                 {qualifyingData.map((qualifying, indx) => (
                                     <tr key={indx}>
-                                        <td>{qualifying.position}</td>
-                                        <td>{findDriverName(qualifying.driverId)}</td>
-                                        <td>{qualifying.q1}</td>
-                                        <td>{qualifying.q2}</td>
-                                        <td>{qualifying.q3}</td>
+                                        <td className="p-3 whitespace-nowrap">{qualifying.position}</td>
+                                        <td className="p-3 whitespace-nowrap">{findDriverName(qualifying.driverId)}</td>
+                                        <td className="p-3 whitespace-nowrap">{qualifying.q1}</td>
+                                        <td className="p-3 whitespace-nowrap">{qualifying.q2}</td>
+                                        <td className="p-3 whitespace-nowrap">{qualifying.q3}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -136,10 +140,10 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
 
             {/* Results Display (pos, name, laps, points) */}
             {!showQualifying && (
-            <div>
-                <h2 className="text-lg font-bold text-left mb-3 mt-3 border-t pt-2">Results</h2>
-                <table className="w-full">
-                    <thead>
+            <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200 p-5 mt-5 ml-3">
+                <h2 className="text-lg font-bold text-left mb-5">Results</h2>
+                <table className="table-auto w-full">
+                    <thead className="text-left font-semibold uppercase text-gray-400 bg-gray-50">
                         <tr>
                             <th>Position</th>
                             <th>Driver</th>
@@ -147,13 +151,13 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                             <th>Points</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="text-sm divide-y divide-gray-100">
                         {resultsData.map((result, indx) => (
                             <tr key={indx}>
-                                <td>{result.position}</td>
-                                <td>{findDriverName(result.driverId)}</td>
-                                <td>{result.laps}</td>
-                                <td>{result.points}</td>
+                                <td className="p-3 whitespace-nowrap">{result.position}</td>
+                                <td className="p-3 whitespace-nowrap">{findDriverName(result.driverId)}</td>
+                                <td className="p-3 whitespace-nowrap">{result.laps}</td>
+                                <td className="p-3 whitespace-nowrap">{result.points}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -167,3 +171,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
 
 export default RaceOverview;
 
+{/*
+TABLES STYLING FROM:
+https://tailwindcomponents.com/component/customers-table
+*/}
