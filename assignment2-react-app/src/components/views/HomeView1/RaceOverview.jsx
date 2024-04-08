@@ -30,6 +30,8 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
     if (showStandings) {
         return (
           <div className="mt-4 p-3 w-3/5 border border-black text-left">
+            <h2 className="text-lg font-semibold">Race:</h2>
+                <p>{selectedRace.name} | Round #{selectedRace.round} | {selectedRace.date}</p>
             <div className="flex">
               {/* Table to Display Drivers (pos, name, points, wins) */}
               <div className="w-1/2">
@@ -90,8 +92,8 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
     <div className="mt-4 p-3 w-3/5 border border-black text-left">
             {selectedRace && ( 
              <>
-                <h2 className="text-lg font-semibold">Results</h2>
-                <p>Name: {selectedRace.name}, Round #{selectedRace.round}, Year: {selectedRace.year}</p>
+                <h2 className="text-lg font-semibold">Race:</h2>
+                <p>{selectedRace.name} | Round #{selectedRace.round} | {selectedRace.date}</p>
 
                 {/* Buttons to switch display */}
                 <div className="flex">
