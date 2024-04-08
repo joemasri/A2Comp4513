@@ -85,27 +85,31 @@ import supabase from "../config/supabaseClient";
         }
 
     // Fetch Driver Standings
-    export const fetchDriverStandings = async (raceId) => {
-            const { data, error } = await supabase
-                .from('driverStandings')
-                .select('')
-                .eq('raceId', raceId)
-                .order('position', { ascending: true });
+    export const fetchDriverStandings = async (selectedRace) => {
+        const { data, error } = await supabase
+            .from('driverStandings')
+            .select()
+            .eq('raceId', selectedRace)
+            .order('position', { ascending: true });
+        
+            // Handle errors
             if (error) {
                 console.error('Error fetching driver standings: ', error.message);
                 return null;
             } else {
                 return data;
             }
-        }
+        }   
 
     // Fetch Constructor Standings
-    export const fetchConstructorStandings = async (raceId) => {
-            const { data, error } = await supabase
-                .from('constructorStandings')
-                .select('')
-                .eq('raceId', raceId)
-                .order('position', { ascending: true });
+    export const fetchConstructorStandings = async (selectedRace) => {
+        const { data, error } = await supabase
+            .from('constructorStandings')
+            .select()
+            .eq('raceId', selectedRace)
+            .order('position', { ascending: true });
+        
+            // Handle errors
             if (error) {
                 console.error('Error fetching constructor standings: ', error.message);
                 return null;
@@ -113,44 +117,4 @@ import supabase from "../config/supabaseClient";
                 return data;
             }
         }
-
-
-/* 
-
-// Returns current season driver standings table for specified race
-app.get('/api/standings/:raceId/drivers', async (req, res) => {
     
-        const raceId = req.params.raceId;
-        const { data, error } = await supabase
-            .from('driverStandings')
-            .select('*, drivers!inner(driverRef)')
-            .eq('raceId', raceId)
-            .order('position', { ascending: true });
-
-        // Check for errors
-        handleError(error, data, res, `Standings with raceId: '${raceId}' not found`);
-});
-
-// Returnss current season constructors standings table for specified race
-app.get('/api/standings/:raceId/constructors', async (req, res) => {
-    
-        const raceId = req.params.raceId;
-
-    try {
-        const { data, error } = await supabase
-            .from('constructorStandings')
-            .select(`raceId, constructorId, position, wins, 
-                    constructors(name, constructorRef, nationality)`)
-            .eq('raceId', raceId)
-            .order('position', { ascending: true }); 
-
-        // Check for errors
-        handleError(error, data, res, `No standings found for race with id '${raceId}'`);
-    
-    } catch (err) {
-        res.send({ error: 'Internal Server Error' });
-    }
-});
-
-
-*/

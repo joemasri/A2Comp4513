@@ -4,8 +4,7 @@ import React from "react";
 const RacesDisplay = ({ races, handleResultBtn, handleStandingsBtn, selectedSeason }) => {
     
     const handleStanding = (race) => {
-        console.log("race selected: ", race);
-        handleStandingsBtn();
+        handleStandingsBtn(race);
     };
     
     return (

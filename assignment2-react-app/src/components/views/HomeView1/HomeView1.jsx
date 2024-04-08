@@ -35,33 +35,30 @@ const HomeView1 = () => {
             // Fetch races
             const racesData = await fetchRaces(selectedSeason);
             setRaces(racesData);
-
+            
             // If a race is selected, fetch qualifying, results, driver, driver standings, and constructor standings
             if (selectedRace) {
                 const raceId = selectedRace.raceId;
                 const qualifyingData = await fetchQualifying(raceId);
-                setQualifyingData(qualifyingData);
-
                 const resultsData = await fetchResults(raceId);
-                setResultsData(resultsData);
-
                 const driverData = await fetchDriver(raceId);
+                
+                setQualifyingData(qualifyingData);
+                setResultsData(resultsData);
                 setDriverData(driverData);
 
                 const driverStandingsData = await fetchDriverStandings(raceId);
-                setDriverStandingsData(driverStandingsData);
-
                 const constructorStandingsData = await fetchConstructorStandings(raceId);
+                setDriverStandingsData(driverStandingsData);
                 setConstructorStandingsData(constructorStandingsData);
-            }
+                
+            }        
         };
 
         // Call fetchData function
         fetchData();
-
-        // selectedSeason and selectedRace in the dependency array
-    }, [selectedSeason, selectedRace]);
-
+    }, [selectedSeason, selectedRace, showStandings]);
+        
     // Results button handler
     const handleResultBtn = (race) => {
         setShowStandings(false);
@@ -70,8 +67,9 @@ const HomeView1 = () => {
 
     // Standings button handler
     const handleStandingsBtn = (race) => {
-        setShowStandings(true); 
+        setShowStandings(true);
         setSelectedRace(race);
+        
     };
 
     return (
@@ -100,6 +98,8 @@ const HomeView1 = () => {
             resultsData={resultsData}
             driverData={driverData}
             showStandings={showStandings}
+            driverStandingsData={driverStandingsData}
+            constructorStandingsData={constructorStandingsData}
         />
     </div>
 </div>
