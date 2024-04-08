@@ -26,6 +26,16 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
         setShowResults(true); // Show results
     };
 
+    // Highlight top 3
+    const getPositionClassName = (position) => {
+        switch (position) {
+            case '1': return 'bg-gold font-bold';
+            case '2': return 'bg-silver font-bold';
+            case '3': return 'bg-bronze font-bold';
+            default: return '';
+        }
+    };
+
 
     if (showStandings) {
         return (
@@ -153,7 +163,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-100">
                         {resultsData.map((result, indx) => (
-                            <tr key={indx}>
+                            <tr key={indx} className={getPositionClassName(result.position)}>
                                 <td className="p-3 whitespace-nowrap">{result.position}</td>
                                 <td className="p-3 whitespace-nowrap">{findDriverName(result.driverId)}</td>
                                 <td className="p-3 whitespace-nowrap">{result.laps}</td>
