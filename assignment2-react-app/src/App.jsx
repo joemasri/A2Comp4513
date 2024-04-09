@@ -19,4 +19,3 @@ function App() {
 
 export default App
 
-// Link: https://a2comp4513.onrender.com/
