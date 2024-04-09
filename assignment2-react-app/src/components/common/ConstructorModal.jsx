@@ -1,6 +1,7 @@
 import React from "react";
 import { useContext, useState } from "react";
 import { FavoritesContext } from "../views/Favorites/Favorites";
+import PopupMessage from "./PopupMsg";
 
 const ConstructorModal = ({ isOpen, onClose, constructor }) => {
     if (!isOpen || !constructor) return null;
@@ -14,6 +15,14 @@ const ConstructorModal = ({ isOpen, onClose, constructor }) => {
     // Handle image load error
     const handleImgErr = () => {
         setImageSrc("https://placehold.co/250x250"); //if img fails to load, display this
+    };
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
+
+    // Close popup
+    const handleClosePopup = () => {
+        setShowPopup(false);
     };
     
     return (
@@ -38,12 +47,27 @@ const ConstructorModal = ({ isOpen, onClose, constructor }) => {
                         {/* Action buttons */}
                         <div className="mt-4">
                             <button onClick={onClose} className="bg-red-500 text-white font-bold py-2 px-4 rounded mr-2">Close</button>
-                            <button onClick={() => addToFavorites('constructors', constructor.name)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded">Add to Favorites</button>
+                            <button
+                            onClick={() => {
+                                const wasAdded = addToFavorites('constructors', constructor.name); 
+                                let message = "Already in Favorites"; // Default message
+                                if (wasAdded) {
+                                    message = "Added to Favorites"; // Update message if added successfully
+                                }
+                                setPopupMessage(message); 
+                                setShowPopup(true); // Show the popup message
+                            }}
+                            className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+                            >Add to Favorites
+                            </button>
+                            <PopupMessage message={popupMessage} show={showPopup} onClose={handleClosePopup} /> 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        //className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
     );
 };
 

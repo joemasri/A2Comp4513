@@ -11,11 +11,18 @@ export const FavoritesProvider = ({ children }) => {
   });
 
   // Add item to favorites
-  const addToFavorites = (category, item) => {
+  const addToFavorites = (category, newItem) => {
+    const isAdded = favorites[category].some(item => item === newItem);
+
+    if (!isAdded) {
     setFavorites((prevFavorites) => ({
       ...prevFavorites,
-      [category]: [...prevFavorites[category], item],
+      [category]: [...prevFavorites[category], newItem],
+      
     }));
+    return true;
+   }
+    return false;
   };
 
   // Clear favorites

@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { FavoritesContext } from "../views/Favorites/Favorites";
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import PopupMessage from "./PopupMsg";
 import { useRef, useState } from "react"; 
 
 const CircuitModal = ({ isOpen, onClose, circuit }) => {
@@ -10,9 +11,16 @@ const CircuitModal = ({ isOpen, onClose, circuit }) => {
     
     const placeholderImage = "https://placehold.co/300x300";
     const { addToFavorites } = useContext(FavoritesContext);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
     const [center, setCenter] = useState([circuit.lat, circuit.lng]);
     const ZOOM_LEVEL = 11;
     const mapRef = useRef();
+
+    // Close popup
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    };
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -34,7 +42,20 @@ const CircuitModal = ({ isOpen, onClose, circuit }) => {
 
                         <div className="pt-80">
                             <button onClick={onClose} className="bg-red-500 text-white font-bold py-2 px-4 rounded mr-2">Close</button>
-                            <button onClick={() => addToFavorites('circuits', circuit.name)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded">Add Favorites</button>
+                            <button
+                            onClick={() => {
+                                const wasAdded = addToFavorites('circuits', circuit.name); 
+                                let message = "Already in Favorites"; // Default message
+                                if (wasAdded) {
+                                    message = "Added to Favorites"; // Update message if added successfully
+                                }
+                                setPopupMessage(message); 
+                                setShowPopup(true); // Show the popup message
+                            }}
+                            className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-3"
+                            >Add to Favorites
+                            </button>
+                            <PopupMessage message={popupMessage} show={showPopup} onClose={handleClosePopup} /> 
                         </div>
                     </div>
 
