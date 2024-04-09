@@ -118,6 +118,22 @@ import supabase from "../config/supabaseClient";
             }
         }
 
+    // Fetch Constructor Information
+    export const fetchConstructor = async (constructorId) => {
+        const { data, error } = await supabase
+            .from('constructors')
+            .select('name, nationality, url')
+            .eq('constructorId', constructorId);
+        
+            // Handle errors
+            if (error) {
+                console.error('Error fetching constructor data: ', error.message);
+                return null;
+            } else {
+                return data;
+            }
+        }
+
     // Fetch Circuit Information
     export const fetchCircuit = async (circuitId) => {
         const { data, error } = await supabase

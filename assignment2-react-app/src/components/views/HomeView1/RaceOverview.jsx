@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+import { fetchConstructor } from '../../../Api';
 import DriverDetailsModal from '../../common/DriverDetailsModal';
+import ConstructorModal from '../../common/ConstructorModal';
 
 // Results and Qualifying Display based on Selected Race
 const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, showStandings, driverStandingsData, constructorStandingsData}) => {
@@ -11,6 +13,10 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
     // Visibility of Driver Modal
     const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
     const [selectedDriver, setSelectedDriver] = useState(null);
+
+    // Visibility of Constructor Modal
+    const [isConstructorModalOpen, setIsConstructorModalOpen] = useState(false);
+    const [selectedConstructor, setSelectedConstructor] = useState(null);
 
     
     // Locate driver name using driverId
@@ -42,17 +48,26 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
     };
 
     const handleDriverClick = async (driverId) => {
-        // Simulating fetchDriverDetails function. Replace this with your actual fetch function
+
+        // Find driver details based on driverId
         const driverDetails = driverData.find(driver => driver.driverId === driverId);
         setSelectedDriver({
             name: `${driverDetails.forename} ${driverDetails.surname}`,
-            dob: driverDetails.dob, // Assuming your driverDetails object has a dob field
-            nationality: driverDetails.nationality, // Assuming nationality field
-            url: driverDetails.url // Assuming url field
+            dob: driverDetails.dob,
+            nationality: driverDetails.nationality, 
+            url: driverDetails.url 
         });
         setIsDriverModalOpen(true);
     };
     
+
+    // Function to handle constructor click
+    const handleConstructorClick = async (constructorId) => {
+        const constructorData = await fetchConstructor(constructorId);
+        console.log(constructorData); 
+        setSelectedConstructor(constructorData[0]); 
+        setIsConstructorModalOpen(true);
+    };
 
     // Display Standings
     if (showStandings) {
@@ -106,7 +121,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                     {constructorStandingsData.map((constructorStanding, index) => (
                       <tr key={index}>
                         <td className="p-3 whitespace-nowrap">{constructorStanding.position}</td>
-                        <td className="p-3 whitespace-nowrap">{constructorStanding.constructors?.name}</td>
+                        <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleConstructorClick(constructorStanding.constructorId)}>{constructorStanding.constructors?.name}</td>
                         <td className="p-3 whitespace-nowrap">{constructorStanding.points}</td>
                         <td className="p-3 whitespace-nowrap">{constructorStanding.wins}</td>
                       </tr>
@@ -116,6 +131,12 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
               </div>
             </div>
             </div>
+            
+            <ConstructorModal 
+                isOpen={isConstructorModalOpen} 
+                onClose={() => setIsConstructorModalOpen(false)} 
+                constructor={selectedConstructor}
+            />
           </div>
         );
       }
@@ -155,7 +176,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                                     <tr key={indx}>
                                         <td className="p-3 whitespace-nowrap">{qualifying.position}</td>
                                         <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleDriverClick(qualifying.driverId)} >{findDriverName(qualifying.driverId)}</td>
-                                        <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline">{qualifying.constructors?.name}</td>
+                                        <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleConstructorClick(qualifying.constructorId)} >{qualifying.constructors?.name}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q1}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q2}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q3}</td>
@@ -188,7 +209,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                             <tr key={indx} className={getPositionClassName(result.position)}>
                                 <td className="p-3 whitespace-nowrap">{result.position}</td>
                                 <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleDriverClick(result.driverId)}>{findDriverName(result.driverId)}</td>
-                                <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline">{result.constructors?.name}</td>
+                                <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleConstructorClick(result.constructorId)} >{result.constructors?.name}</td>
                                 <td className="p-3 whitespace-nowrap">{result.laps}</td>
                                 <td className="p-3 whitespace-nowrap">{result.points}</td>
                             </tr>
@@ -198,10 +219,11 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
             </div>
             )}
             <DriverDetailsModal 
-                    isOpen={isDriverModalOpen} 
-                    onClose={() => setIsDriverModalOpen(false)} 
-                    driver={selectedDriver} 
+                isOpen={isDriverModalOpen} 
+                onClose={() => setIsDriverModalOpen(false)} 
+                driver={selectedDriver} 
             />
+
         </div>
     )
 }
