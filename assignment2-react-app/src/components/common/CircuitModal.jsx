@@ -1,12 +1,18 @@
 import React from "react";
 import { useContext } from "react";
 import { FavoritesContext } from "../views/Favorites/Favorites";
+import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useRef, useState } from "react"; 
 
 const CircuitModal = ({ isOpen, onClose, circuit }) => {
     if (!isOpen || !circuit) return null;
     
     const placeholderImage = "https://placehold.co/300x300";
     const { addToFavorites } = useContext(FavoritesContext);
+    const [center, setCenter] = useState([circuit.lat, circuit.lng]);
+    const ZOOM_LEVEL = 11;
+    const mapRef = useRef();
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -33,12 +39,19 @@ const CircuitModal = ({ isOpen, onClose, circuit }) => {
                     </div>
 
                     {/* Right side: Circuit image and Map placeholder */}
-                    <div className="flex flex-col mr-4">
-                        <img src={placeholderImage} alt="Circuit" className="mb-4" />
-                        <div className="border-2 border-dashed h-64 w-64 flex items-center justify-center">
-                            <p>Map placeholder</p>
-                            {/* <LeafletMap /> here */}
-                        </div>
+                    
+                    <div className="flex-col mr-4">
+                    <img src={placeholderImage} alt="Circuit" className="mb-4 ml-20" />
+                        <div className="w-96 h-64 ml-4">
+                        <MapContainer center={center} zoom={ZOOM_LEVEL} scrollWheelZoom={true} style={{ height: "100%", width: "100%" }}>
+                            <TileLayer
+                                url="https://api.maptiler.com/maps/landscape/256/{z}/{x}/{y}.png?key=cIHYD3msCc45Tunexwsk"
+                            />
+                            <Marker position={center}>
+                                <Popup>{circuit.name}</Popup>
+                            </Marker>
+                        </MapContainer>
+                    </div>
                     </div>
                 </div>
             </div>

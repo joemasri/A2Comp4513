@@ -14,7 +14,7 @@ const StandingsDisplay = ({
     if (showStandings) {
         return (
           <div className="mt-4 p-3 w-3/5 border-double border-4 border-gray-600 text-left">
-            <h2 className="text-lg font-semibold">Race:</h2>
+            <h2 className="text-lg font-semibold">Standings:</h2>
                 <p>{selectedRace.name} | Round #{selectedRace.round} | {selectedRace.date}</p>
             <div className="flex">
               
