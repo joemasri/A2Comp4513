@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginView from './components/views/LoginView/LoginView'
-import HomeView1 from './components/views/HomeView1/HomeView1'
+import HomeView1 from './components/views/HomeView/HomeView'
 
 function App() {
   const [count, setCount] = useState(0)

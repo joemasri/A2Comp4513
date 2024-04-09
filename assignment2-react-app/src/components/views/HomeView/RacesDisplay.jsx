@@ -21,7 +21,7 @@ const RacesDisplay = ({ races, handleResultBtn, handleStandingsBtn, selectedSeas
     };
     
     return (
-        <div className="mt-4 mr-4 p-3 w-1/3 border-4 border-black text-left">
+        <div className="mt-4 mr-4 p-3 w-1/3 border-double border-4 border-gray-600 text-left">
             <h2 className="text-lg font-semibold pb-5">{selectedSeason} Races</h2>
             
             {/* Races table */}
