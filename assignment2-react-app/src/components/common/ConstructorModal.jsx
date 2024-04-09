@@ -1,12 +1,20 @@
 import React from "react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FavoritesContext } from "../views/Favorites/Favorites";
 
 const ConstructorModal = ({ isOpen, onClose, constructor }) => {
     if (!isOpen || !constructor) return null;
-    
-    const placeholderImage = "https://placehold.co/300x300"; // Placeholder image URL for the constructor
+   
+    // Context for favorites
     const { addToFavorites } = useContext(FavoritesContext);
+   
+    // State for constructor image
+    const [imageSrc, setImageSrc] = useState(constructor.imageUrl || "https://placehold.co/300x300");
+    
+    // Handle image load error
+    const handleImgErr = () => {
+        setImageSrc("https://placehold.co/250x250"); //if img fails to load, display this
+    };
     
     return (
 
@@ -17,7 +25,7 @@ const ConstructorModal = ({ isOpen, onClose, constructor }) => {
                     
                     {/* Left side: Constructor details and actions */}
                     <div className="flex flex-col mr-4">
-                        <img src={placeholderImage} alt="Constructor" className="mb-4" />
+                        <img src={imageSrc} alt="Constructor" className="mb-4" onError={handleImgErr} />
                     </div>
 
                     {/* Right side: Constructor details and actions */}
