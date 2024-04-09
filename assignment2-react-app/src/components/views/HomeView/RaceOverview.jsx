@@ -122,6 +122,10 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
 export default RaceOverview;
 
 {/*
-TABLES STYLING FROM:
+STYLING FROM:
 https://tailwindcomponents.com/component/customers-table
+https://v1.tailwindcss.com/
+https://v1.tailwindcss.com/docs/border-style
+https://tailwindcss.com/docs/text-decoration
+https://tailwindcss.com/docs/background-position
 */}
