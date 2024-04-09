@@ -18,7 +18,6 @@ const HomeView1 = () => {
     const [driverStandingsData, setDriverStandingsData] = useState([]);
     const [constructorStandingsData, setConstructorStandingsData] = useState([]);
 
-
     // Fetch seasons
     useEffect(() => {
         const fetchSeason = async () => {
@@ -42,16 +41,15 @@ const HomeView1 = () => {
                 const qualifyingData = await fetchQualifying(raceId);
                 const resultsData = await fetchResults(raceId);
                 const driverData = await fetchDriver(raceId);
+                const driverStandingsData = await fetchDriverStandings(raceId);
+                const constructorStandingsData = await fetchConstructorStandings(raceId);
                 
                 setQualifyingData(qualifyingData);
                 setResultsData(resultsData);
                 setDriverData(driverData);
-
-                const driverStandingsData = await fetchDriverStandings(raceId);
-                const constructorStandingsData = await fetchConstructorStandings(raceId);
                 setDriverStandingsData(driverStandingsData);
                 setConstructorStandingsData(constructorStandingsData);
-                
+
             }        
         };
 

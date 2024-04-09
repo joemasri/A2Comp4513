@@ -16,8 +16,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
     // Toggle Qualifying View
     const toggleQualifying = () => {
         setShowQualifying(true); // Show Qualifying
-        setShowResults(false); // Hide Results
-        
+        setShowResults(false); // Hide Results  
     };
 
     // Toggle Results View
@@ -36,13 +35,14 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
         }
     };
 
-
+    // Display Standings
     if (showStandings) {
         return (
           <div className="mt-4 p-3 w-3/5 border-4 border-black text-left">
             <h2 className="text-lg font-semibold">Race:</h2>
                 <p>{selectedRace.name} | Round #{selectedRace.round} | {selectedRace.date}</p>
             <div className="flex">
+              
               {/* Table to Display Drivers (pos, name, points, wins) */}
               <div className="w-1/2">
                 <h2 className="text-lg font-bold text-center mb-3 mt-3 pt-2">Drivers</h2>

@@ -117,4 +117,20 @@ import supabase from "../config/supabaseClient";
                 return data;
             }
         }
+
+    // Fetch Circuit Information
+    export const fetchCircuit = async (circuitId) => {
+        const { data, error } = await supabase
+            .from('circuits')
+            .select('')
+            .eq('circuitId', circuitId);
+        
+            // Handle errors
+            if (error) {
+                console.error('Error fetching circuit data: ', error.message);
+                return null;
+            } else {
+                return data;
+            }
+        }
     

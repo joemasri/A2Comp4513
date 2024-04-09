@@ -1,26 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import CircuitModal from "../../common/CircuitModal";
+import { fetchCircuit } from "../../../Api";
 
 // Races Display based on Selected Season 
 const RacesDisplay = ({ races, handleResultBtn, handleStandingsBtn, selectedSeason }) => {
     
+    // State to show/hide modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedCircuit, setSelectedCircuit] = useState(null);
+
+
+    useEffect(() => {
+        console.log(selectedCircuit); // Log the selectedCircuit when it changes
+    }, [selectedCircuit]);
+
+    // Handle Circuit Name Click
+    const handleRaceNameClick = async (circuitId) => {
+        const circuitInfo = await fetchCircuit(circuitId);
+        console.log(circuitInfo); // Log the fetched circuit information
+        setSelectedCircuit(circuitInfo[0]);
+        setIsModalOpen(true);
+    };
+
     const handleStanding = (race) => {
         handleStandingsBtn(race);
     };
     
     return (
         <div className="mt-4 mr-4 p-3 w-1/3 border-4 border-black text-left">
-            <h2 className="text-lg font-semibold">{selectedSeason} Races</h2>
-            <ul>
-                {races.map((race, indx) => (
-                <li key={indx} className="flex items-center justify-between">
-                        {race.round} - {race.name}
-                    <div className="flex">
-                        <button className="p-2 m-1 text-white bg-gray-400 rounded" onClick={() => handleResultBtn(race)}>Results</button>
-                        <button className="p-2 m-1 text-white bg-gray-400 rounded" onClick={() => handleStanding(race)}>Standings</button>
-                    </div>
-                </li>
-                ))}
-            </ul>
+            <h2 className="text-lg font-semibold pb-5">{selectedSeason} Races</h2>
+            
+            {/* Races table */}
+            <table className="w-full">
+                <thead>
+                    <tr>
+                        <th className="text-left">Rnd</th>
+                        <th className="text-center">Circuit</th>
+                        <th className="text-center">View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {races.map((race, indx) => (
+                        <tr key={indx}>
+                            <td>{race.round}</td>
+                            <td onClick={() => handleRaceNameClick(race.circuitId)} className="cursor-pointer text-decoration-line: underline">{race.name}</td>
+
+                            <td>
+                                <button className="p-2 m-1 text-white bg-gray-400 rounded" onClick={() => handleResultBtn(race)}>Results</button>
+                                <button className="p-2 m-1 text-white bg-gray-400 rounded" onClick={() => handleStanding(race)}>Standings</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+        <CircuitModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} circuit={selectedCircuit} />
     </div>
     );
 }
