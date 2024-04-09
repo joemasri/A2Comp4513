@@ -155,7 +155,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                                     <tr key={indx}>
                                         <td className="p-3 whitespace-nowrap">{qualifying.position}</td>
                                         <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleDriverClick(qualifying.driverId)} >{findDriverName(qualifying.driverId)}</td>
-                                        <td className="p-3 whitespace-nowrap">{qualifying.constructors?.name}</td>
+                                        <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline">{qualifying.constructors?.name}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q1}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q2}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q3}</td>
@@ -188,7 +188,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                             <tr key={indx} className={getPositionClassName(result.position)}>
                                 <td className="p-3 whitespace-nowrap">{result.position}</td>
                                 <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleDriverClick(result.driverId)}>{findDriverName(result.driverId)}</td>
-                                <td className="p-3 whitespace-nowrap">{result.constructors?.name}</td>
+                                <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline">{result.constructors?.name}</td>
                                 <td className="p-3 whitespace-nowrap">{result.laps}</td>
                                 <td className="p-3 whitespace-nowrap">{result.points}</td>
                             </tr>
