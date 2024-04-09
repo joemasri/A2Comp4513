@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CircuitModal from "../../common/CircuitModal";
 import { fetchCircuit } from "../../../Api";
 
@@ -9,15 +9,9 @@ const RacesDisplay = ({ races, handleResultBtn, handleStandingsBtn, selectedSeas
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCircuit, setSelectedCircuit] = useState(null);
 
-
-    useEffect(() => {
-        console.log(selectedCircuit); // Log the selectedCircuit when it changes
-    }, [selectedCircuit]);
-
     // Handle Circuit Name Click
     const handleRaceNameClick = async (circuitId) => {
         const circuitInfo = await fetchCircuit(circuitId);
-        console.log(circuitInfo); // Log the fetched circuit information
         setSelectedCircuit(circuitInfo[0]);
         setIsModalOpen(true);
     };

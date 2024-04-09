@@ -39,7 +39,7 @@ import supabase from "../config/supabaseClient";
     export const fetchQualifying = async (selectedRace) => {
         const { data, error } = await supabase
             .from('qualifying')
-            .select()
+            .select(`*, constructors(name)`)
             .eq('raceId', selectedRace)
             .order('position', { ascending: true });
         
@@ -56,7 +56,7 @@ import supabase from "../config/supabaseClient";
     export const fetchResults = async (selectedRace) => {
         const { data, error } = await supabase
             .from('results')
-            .select()
+            .select(`*, constructors(name)`)
             .eq('raceId', selectedRace)
             .order('positionOrder', { ascending: true });
         
@@ -105,7 +105,7 @@ import supabase from "../config/supabaseClient";
     export const fetchConstructorStandings = async (selectedRace) => {
         const { data, error } = await supabase
             .from('constructorStandings')
-            .select()
+            .select(`*, constructors(name)`)
             .eq('raceId', selectedRace)
             .order('position', { ascending: true });
         

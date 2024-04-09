@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import DriverDetailsModal from '../../common/DriverDetailsModal';
 
 // Results and Qualifying Display based on Selected Race
 const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, showStandings, driverStandingsData, constructorStandingsData}) => {
@@ -6,6 +7,11 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
     // State to show/hide qualifying data
     const [showQualifying, setShowQualifying] = useState(true);
     const [showResults, setShowResults] = useState(false);
+
+    // Visibility of Driver Modal
+    const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
+    const [selectedDriver, setSelectedDriver] = useState(null);
+
     
     // Locate driver name using driverId
     const findDriverName = (driverId) => {
@@ -35,6 +41,19 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
         }
     };
 
+    const handleDriverClick = async (driverId) => {
+        // Simulating fetchDriverDetails function. Replace this with your actual fetch function
+        const driverDetails = driverData.find(driver => driver.driverId === driverId);
+        setSelectedDriver({
+            name: `${driverDetails.forename} ${driverDetails.surname}`,
+            dob: driverDetails.dob, // Assuming your driverDetails object has a dob field
+            nationality: driverDetails.nationality, // Assuming nationality field
+            url: driverDetails.url // Assuming url field
+        });
+        setIsDriverModalOpen(true);
+    };
+    
+
     // Display Standings
     if (showStandings) {
         return (
@@ -48,7 +67,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                 <h2 className="text-lg font-bold text-center mb-3 mt-3 pt-2">Drivers</h2>
                 <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200 p-5">
                 <table className="table-auto w-full">
-                  <thead className="text-left font-semibold uppercase text-gray-400 bg-gray-50">
+                  <thead className="text-center font-semibold uppercase text-gray-400 bg-gray-50">
                     <tr>
                       <th>Position</th>
                       <th>Driver</th>
@@ -78,7 +97,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                   <thead className="text-left font-semibold uppercase text-gray-400 bg-gray-50">
                     <tr>
                       <th>Position</th>
-                      <th>Constructor</th>
+                      <th>Make</th>
                       <th>Points</th>
                       <th>Wins</th>
                     </tr>
@@ -87,7 +106,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                     {constructorStandingsData.map((constructorStanding, index) => (
                       <tr key={index}>
                         <td className="p-3 whitespace-nowrap">{constructorStanding.position}</td>
-                        <td className="p-3 whitespace-nowrap">{constructorStanding.constructorId}</td>
+                        <td className="p-3 whitespace-nowrap">{constructorStanding.constructors?.name}</td>
                         <td className="p-3 whitespace-nowrap">{constructorStanding.points}</td>
                         <td className="p-3 whitespace-nowrap">{constructorStanding.wins}</td>
                       </tr>
@@ -125,6 +144,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                                 <tr>
                                     <th>Position</th>
                                     <th>Driver</th>
+                                    <th>Make</th>
                                     <th>Q1</th>
                                     <th>Q2</th>
                                     <th>Q3</th>
@@ -134,7 +154,8 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                                 {qualifyingData.map((qualifying, indx) => (
                                     <tr key={indx}>
                                         <td className="p-3 whitespace-nowrap">{qualifying.position}</td>
-                                        <td className="p-3 whitespace-nowrap">{findDriverName(qualifying.driverId)}</td>
+                                        <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleDriverClick(qualifying.driverId)} >{findDriverName(qualifying.driverId)}</td>
+                                        <td className="p-3 whitespace-nowrap">{qualifying.constructors?.name}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q1}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q2}</td>
                                         <td className="p-3 whitespace-nowrap">{qualifying.q3}</td>
@@ -157,6 +178,7 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                         <tr>
                             <th>Position</th>
                             <th>Driver</th>
+                            <th>Make</th>
                             <th>Laps</th>
                             <th>Points</th>
                         </tr>
@@ -165,7 +187,8 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                         {resultsData.map((result, indx) => (
                             <tr key={indx} className={getPositionClassName(result.position)}>
                                 <td className="p-3 whitespace-nowrap">{result.position}</td>
-                                <td className="p-3 whitespace-nowrap">{findDriverName(result.driverId)}</td>
+                                <td className="p-3 whitespace-nowrap cursor-pointer text-decoration-line: underline" onClick={() => handleDriverClick(result.driverId)}>{findDriverName(result.driverId)}</td>
+                                <td className="p-3 whitespace-nowrap">{result.constructors?.name}</td>
                                 <td className="p-3 whitespace-nowrap">{result.laps}</td>
                                 <td className="p-3 whitespace-nowrap">{result.points}</td>
                             </tr>
@@ -174,7 +197,11 @@ const RaceOverview = ({ selectedRace, qualifyingData, resultsData, driverData, s
                 </table>
             </div>
             )}
-
+            <DriverDetailsModal 
+                    isOpen={isDriverModalOpen} 
+                    onClose={() => setIsDriverModalOpen(false)} 
+                    driver={selectedDriver} 
+            />
         </div>
     )
 }
