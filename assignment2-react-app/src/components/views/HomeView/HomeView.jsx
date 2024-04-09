@@ -3,6 +3,7 @@ import Header from '../../common/Header';
 import { fetchSeasons, fetchRaces, fetchQualifying, fetchResults, fetchDriver, fetchDriverStandings, fetchConstructorStandings } from '../../../Api';
 import RacesDisplay from './RacesDisplay';
 import RaceOverview from './RaceOverview';
+import { FavoritesProvider } from '../Favorites/Favorites';
 
 const HomeView1 = () => {
 
@@ -71,6 +72,7 @@ const HomeView1 = () => {
     };
 
     return (
+<FavoritesProvider>
     <div>
         {/* Header with season select */}
         <Header 
@@ -99,9 +101,10 @@ const HomeView1 = () => {
             driverStandingsData={driverStandingsData}
             constructorStandingsData={constructorStandingsData}
         />
+      </div>
     </div>
-</div>
-        );
-    }
+    </FavoritesProvider>
+    );
+};
 
 export default HomeView1;

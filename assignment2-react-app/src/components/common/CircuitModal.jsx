@@ -1,10 +1,13 @@
 import React from "react";
+import { useContext } from "react";
+import { FavoritesContext } from "../views/Favorites/Favorites";
 
 const CircuitModal = ({ isOpen, onClose, circuit }) => {
     if (!isOpen || !circuit) return null;
     
     const placeholderImage = "https://placehold.co/300x300";
-    
+    const { addToFavorites } = useContext(FavoritesContext);
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-4 rounded-lg shadow-lg max-w-2xl">
@@ -25,7 +28,7 @@ const CircuitModal = ({ isOpen, onClose, circuit }) => {
 
                         <div className="pt-80">
                             <button onClick={onClose} className="bg-red-500 text-white font-bold py-2 px-4 rounded mr-2">Close</button>
-                            <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded">Add Favorites</button>
+                            <button onClick={() => addToFavorites('circuits', circuit.name)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded">Add Favorites</button>
                         </div>
                     </div>
 

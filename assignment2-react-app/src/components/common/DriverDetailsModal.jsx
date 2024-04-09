@@ -1,10 +1,13 @@
 // DriverDetailsModal.jsx
 import React from "react";
+import { useContext } from "react";
+import { FavoritesContext } from "../views/Favorites/Favorites";
 
 const DriverDetailsModal = ({ isOpen, onClose, driver }) => {
     if (!isOpen || !driver) return null;
     
     const placeholderImage = "https://placehold.co/300x300"; // Placeholder for the driver image
+    const { addToFavorites } = useContext(FavoritesContext);
     
     return (
 
@@ -30,7 +33,7 @@ const DriverDetailsModal = ({ isOpen, onClose, driver }) => {
                         {/* Action buttons */}
                         <div className="mt-4">
                             <button onClick={onClose} className="bg-red-500 text-white font-bold py-2 px-4 rounded mr-2">Close</button>
-                            <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded">Add to Favorites</button>
+                            <button onClick={() => addToFavorites('drivers', driver.name)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded">Add to Favorites</button>
                         </div>
                     </div>
                 </div>

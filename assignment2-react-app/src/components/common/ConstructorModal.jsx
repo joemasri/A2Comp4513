@@ -1,9 +1,12 @@
 import React from "react";
+import { useContext } from "react";
+import { FavoritesContext } from "../views/Favorites/Favorites";
 
 const ConstructorModal = ({ isOpen, onClose, constructor }) => {
     if (!isOpen || !constructor) return null;
     
     const placeholderImage = "https://placehold.co/300x300"; // Placeholder image URL for the constructor
+    const { addToFavorites } = useContext(FavoritesContext);
     
     return (
 
@@ -27,7 +30,7 @@ const ConstructorModal = ({ isOpen, onClose, constructor }) => {
                         {/* Action buttons */}
                         <div className="mt-4">
                             <button onClick={onClose} className="bg-red-500 text-white font-bold py-2 px-4 rounded mr-2">Close</button>
-                            <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded">Add to Favorites</button>
+                            <button onClick={() => addToFavorites('constructors', constructor.name)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded">Add to Favorites</button>
                         </div>
                     </div>
                 </div>

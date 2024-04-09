@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import Modal from './AboutModal';
+import FavoritesModal from '../views/Favorites/FavoritesModal';
 
 const Header = ({ selectedSeason, setSelectedSeason, seasons}) => {
   
     // Toggle modal visibility
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isFavoriteOpen, setIsFavoriteOpen] = useState(false);  
     const toggleModal = () => setIsModalOpen(!isModalOpen);
+    const toggleFavorite = () => setIsFavoriteOpen(!isFavoriteOpen);
   
   return (
     
@@ -30,10 +33,11 @@ const Header = ({ selectedSeason, setSelectedSeason, seasons}) => {
     
     {/* Modal and Favorites Button */}
     <div className="absolute right-0 top-0 p-4">
-        <button className="text-white font-bold py-2 px-4 rounded bg-gray-400 ">Favorites</button>
+        <button onClick={toggleFavorite} className="text-white font-bold py-2 px-4 rounded bg-gray-400 ">Favorites</button>
         <button onClick={toggleModal} className="ml-4 mr-12 text-white font-bold py-2 px-4 rounded bg-gray-400 ">About</button>
       </div>
       <Modal isOpen={isModalOpen} onClose={toggleModal} />
+      <FavoritesModal isOpen={isFavoriteOpen} onClose={toggleFavorite} />
   </header>
   );
 }
