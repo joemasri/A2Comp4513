@@ -72,7 +72,7 @@ const HomeView1 = () => {
     };
 
     return (
-<FavoritesProvider>
+    <FavoritesProvider>
     <div>
         {/* Header with season select */}
         <Header 

@@ -33,6 +33,8 @@ const RacesDisplay = ({ races, handleResultBtn, handleStandingsBtn, selectedSeas
                         <th className="text-center">View</th>
                     </tr>
                 </thead>
+
+                {/* Display races and Results/Standings Buttons */}
                 <tbody>
                     {races.map((race, indx) => (
                         <tr key={indx}>
