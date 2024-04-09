@@ -1,6 +1,6 @@
 # React + Vite
 
-Link: https://a2-comp4513.vercel.app/home
+Link: https://a2-comp4513.vercel.app/
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
